@@ -27,10 +27,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
         appBar: AppBar(
             title: const Text('Settings', style: TextStyle(fontSize: 22)),
-            leading: IconButton(
-              onPressed: () => Navigator.pop(context, '/'),
-              icon: const Icon(Icons.arrow_back, color: Colors.black),
-            )),
+            ),
         body: SafeArea(
             child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
