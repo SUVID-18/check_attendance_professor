@@ -16,9 +16,6 @@ class _SettingsPageState extends State<SettingsPage> {
   ///사용자 이름 변수
   final _userName = TextEditingController();
 
-  ///사용자 학번 변수
-  final _userNumber = TextEditingController();
-
   ///사용자 전공 변수
   final _userMajor = TextEditingController();
 
@@ -27,10 +24,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
         appBar: AppBar(
             title: const Text('Settings', style: TextStyle(fontSize: 22)),
-            leading: IconButton(
-              onPressed: () => Navigator.pop(context, '/'),
-              icon: const Icon(Icons.arrow_back, color: Colors.black),
-            )),
+            ),
         body: SafeArea(
             child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -68,8 +62,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   child: ListView(
                                     shrinkWrap: true,
                                     children: [
-                                      Text(
-                                          '이름: $_userName, 학번: $_userNumber, 소속: $_userMajor')
+                                      Text('이름: $_userName, 소속: $_userMajor')
                                     ],
                                   ),
                                 ),
