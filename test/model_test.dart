@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:check_attendance_professor/model/attendance_information.dart';
 import 'package:check_attendance_professor/model/lecture.dart';
+import 'package:check_attendance_professor/model/professor.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -45,6 +46,17 @@ void main() {
               (1683786093.239928 * 1000).toInt()),
           result: AttendanceResult.normal);
       expect(attendanceInfo.subjectName, '프로그래밍 언어론');
+    });
+  });
+  group('강의자 객체 테스트', () {
+    test('강의자 정보에 해당되는 객체가 생성되는지 테스트', () {
+      const professor = Professor('0000000', 'test');
+      expect(professor.name, 'test');
+    });
+    test('강의자 정보 직렬화 테스트', () {
+      const professor = Professor('0000000', 'test');
+      final jsonData = jsonEncode(professor);
+      expect(professor.id, Professor.fromJson(jsonDecode(jsonData)).id);
     });
   });
 }
