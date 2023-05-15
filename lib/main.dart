@@ -1,13 +1,17 @@
+import 'package:check_attendance_professor/firebase_options.dart';
 import 'package:check_attendance_professor/view/attendance_management.dart';
 import 'package:check_attendance_professor/view/login.dart';
 import 'package:check_attendance_professor/view/main_page.dart';
 import 'package:check_attendance_professor/view/settings_page.dart';
 import 'package:check_attendance_professor/view/subject_settings.dart';
 import 'package:check_attendance_professor/view/subjects_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(App());
 }
 
@@ -26,8 +30,8 @@ class App extends StatelessWidget {
     GoRoute(
         path: '/',
         builder: (context, state) => const MainPage(
-              appName: appName,
-            ),
+          appName: appName,
+        ),
         routes: [
           GoRoute(
             path: 'settings',
@@ -48,7 +52,7 @@ class App extends StatelessWidget {
                       GoRoute(
                         path: 'settings',
                         builder: (context, state) =>
-                            const SubjectSettingsPage(),
+                        const SubjectSettingsPage(),
                       ),
                     ])
               ]),
@@ -61,7 +65,7 @@ class App extends StatelessWidget {
       title: appName,
       routerConfig: _routes,
       theme: ThemeData(
-          // Material3 테마를 사용할지에 대한 여부
+        // Material3 테마를 사용할지에 대한 여부
           useMaterial3: true),
     );
   }
