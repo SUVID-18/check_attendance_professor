@@ -22,9 +22,6 @@ const String appName = '전출 시스템(강의자용)';
 class App extends StatelessWidget {
   App({Key? key}) : super(key: key);
 
-
-
-
   final GoRouter _routes = GoRouter(routes: [
     // 앱 실행 시 가장 먼저 출력되는 로그인 페이지
     GoRoute(
