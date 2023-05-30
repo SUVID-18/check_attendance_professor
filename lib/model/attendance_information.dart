@@ -60,6 +60,8 @@ class AttendanceInformation {
   ///
   /// `Firestore`에서 받은 데이터를 [AttendanceInformation]객체로 반환하는 메서드로 [json]에
   /// `Firestore`에서 받은 데이터를 넣으면 된다.
+  ///
+  /// 이 때, Firestore에 저장된 timestamp 필드는 millisecond 단위여야 한다.
   factory AttendanceInformation.fromJson(Map<String, dynamic> json) =>
       AttendanceInformation(
           subjectName: json['subject_name'],

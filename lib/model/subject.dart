@@ -58,11 +58,12 @@ class Subject {
       required this.tagUuid,
       required this.validTime});
 
+  // 만약 처리할 필요가 없거나 Function에서 처리한다면 해당 메서드는 필요 없을 것으로 보임.
+
   /// 과목 하위 속성인 요일을 String 형으로 변환해 주는 메서드.
   ///
   /// 기존에 저장된 값은 int 형으로, 요일 간 계산을 편하게 하기 위함이었다.
   /// 이 메서드는 1,2..7 과 같은 값을 월,화..일로 변환하는 기능을 한다.
-  // TODO: 만약 처리할 필요가 없거나 Function에서 처리한다면 해당 메서드는 필요 없을 것으로 보임.
   String daytoString(){
     switch(dayWeek){
       case 1:
@@ -88,6 +89,8 @@ class Subject {
   ///
   /// `Firestore`에서 받은 데이터를 [Subject]객체로 반환하는 메서드로 [json]에
   /// `Firestore`에서 받은 데이터를 넣으면 된다.
+  ///
+  /// 이 때, Firestore에 저장된 start_at, end_at 필드는 millisecond 단위여야 한다.
   factory Subject.fromJson(Map<String, dynamic> json) {
     // startAt_time, endAt_time은 각각 수업 시작시간과 종료시간만 저장한 String 자료형이다.
     DateTime startAt = DateTime.fromMillisecondsSinceEpoch((json['start_at']).toInt()*1000);
