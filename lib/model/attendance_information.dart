@@ -39,10 +39,8 @@ class AttendanceInformation {
   /// 학생 학번
   final String studentID;
 
-  /// timestamp
-
   /// 출결 여부
-  final AttendanceResult result;
+   final AttendanceResult result;
 
   /// 출석 당시의 날짜와 시간
   final DateTime dateTime;
