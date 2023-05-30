@@ -19,24 +19,23 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
-      scrollDirection: Axis.vertical,
+        body: SafeArea(
       child: ListView(
         /// 앱 크기 조정을 수평 대칭적으로 함
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         children: <Widget>[
           ///상단 출석체크 위젯
-          ///assets/images/swu_horizontalLogo.png 이미지 추가해놓음
+          ///asset/image/swu_horizontalLogo.png 이미지 추가해놓음
           SizedBox(height: 80.0),
           Column(
             children: <Widget>[
-              Image.asset('assets/images/swu_horizontalLogo.png'),
+              Image.asset('asset/image/swu_horizontalLogo.png'),
               SizedBox(height: 1.0),
-                  Text(
-                    '수원대 전자출결 앱',
-                    style: TextStyle(fontSize: 30),
-                  ),
-                ],
+              Text(
+                '수원대 전자출결 앱',
+                style: TextStyle(fontSize: 30),
+              ),
+            ],
               ),
 
               ///아이디 및 비밀번호 입력란
@@ -46,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               TextField(
                 controller: viewModel.userEmailController,
-            decoration: InputDecoration(filled: true, labelText: 'ID'),
+            decoration: InputDecoration(filled: true, labelText: 'Email'),
           ),
 
               ///비밀번호 입력란
@@ -91,8 +90,8 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 50,
                 ),
-                Image.asset('assets/images/swu_bluelogo.png')
-              ]),
+                Image.asset('asset/image/swu_bluelogo.png')
+          ]),
             ],
           ),
         ));
