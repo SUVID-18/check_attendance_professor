@@ -19,18 +19,19 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
+        body: SingleChildScrollView(
+      scrollDirection: Axis.vertical,
       child: ListView(
         /// 앱 크기 조정을 수평 대칭적으로 함
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         children: <Widget>[
           ///상단 출석체크 위젯
           ///assets/images/swu_horizontalLogo.png 이미지 추가해놓음
-              SizedBox(height: 80.0),
-              Column(
-                children: <Widget>[
-                  Image.asset('assets/images/swu_horizontalLogo.png'),
-                  SizedBox(height: 1.0),
+          SizedBox(height: 80.0),
+          Column(
+            children: <Widget>[
+              Image.asset('assets/images/swu_horizontalLogo.png'),
+              SizedBox(height: 1.0),
                   Text(
                     '수원대 전자출결 앱',
                     style: TextStyle(fontSize: 30),
@@ -62,19 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: <Widget>[
                   ElevatedButton(
                       onPressed: () async {
-                    //showDialog(
-                    //       context: context,
-                    //       builder: (BuildContext context)=>AlertDialog(
-                    //       title: Text('로그인 실패'),
-                    //       content: Text('ID나 비밀번호가 없거나 잘못되었습니다'),
-                    //       actions: <Widget>[
-                    //                   TextButton(onPressed: ()=> Navigator.pop(context),
-                    //                   child: Text('확인'))
-                    //                  ]
-                    //                 )
-                    //                );
-                    //Navigator.pop(context,"/");
-                    showDialog(
+                        showDialog(
                       barrierDismissible: false,
                       context: context,
                       builder: (context) => Dialog(
