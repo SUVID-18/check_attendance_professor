@@ -33,47 +33,39 @@ class AttendanceInformation {
   /// 과목의 이름
   final String subjectName;
 
-  /// 문서 ID
-  final String professorName;
+  /// 학생의 이름
+  final String studentName;
 
-  /// 출결 일시
-  final DateTime attendanceDate;
+  /// 학생 학번
+  final String studentID;
 
   /// 출결 여부
-  final AttendanceResult result;
+   final AttendanceResult result;
+
+  /// 출석 당시의 날짜와 시간
+  final DateTime dateTime;
+
 
   /// 출결 여부를 가진 객체를 생성한다.
   ///
-  /// [subjectName]에 과목 이름을 넣고, [professorName]에 교수나 강의자 이름을 넣고
-  /// [result]에 [AttendanceResult]를 통해 출결 여부를 넣으면 된다.
-  ///
-  /// 만일 [result]가 `AttendanceResult.normal`인
-  /// 경우 출결한 것으로 간주한다.
+  /// Firestore로부터 넘겨받는 정보를 받는 처리하는 모델로 fromJson 메서드를 이용해 역직렬화를 수행한다.
+  /// [Timestamp]형으로 저장된 출석 시간은 모델에서 [DateTime]형으로 변환하여 저장한다.
   const AttendanceInformation(
-      {required this.subjectName,
-      required this.professorName,
-      required this.attendanceDate,
-      required this.result});
+      {required this.subjectName, required this.studentName, required this.studentID,
+        required this.result, required this.dateTime});
 
   /// [json]에서 객체를 역직렬화 하는 경우(출결 여부를 가진 객체로 가져오기) 사용되는 `factory` 생성자
   ///
   /// `Firestore`에서 받은 데이터를 [AttendanceInformation]객체로 반환하는 메서드로 [json]에
   /// `Firestore`에서 받은 데이터를 넣으면 된다.
   ///
-  /// ```dart
-  /// final lectureRef = db.collection('attendances').doc('test');
-  /// lectureRef.get().then(
-  ///   (DocumentSnapshot doc) {
-  ///     final student = AttendanceInformation.fromJson(jsonDecode(doc.data()));
-  ///    },
-  ///    onError: (e) => print('Error Detected: $e'),
-  ///   );
-  /// ```
+  /// 이 때, Firestore에 저장된 timestamp 필드는 millisecond 단위여야 한다.
   factory AttendanceInformation.fromJson(Map<String, dynamic> json) =>
       AttendanceInformation(
           subjectName: json['subject_name'],
-          professorName: json['professor_name'],
-          attendanceDate: DateTime.fromMillisecondsSinceEpoch(
-              (json['timestamp'] * 1000).toInt()),
-          result: AttendanceResult.values.byName(json['result']));
+          studentName : json['student_name'],
+          studentID : json['student_id'],
+          result: AttendanceResult.values.byName(json['result']),
+          dateTime: DateTime.fromMillisecondsSinceEpoch((json['timestamp']).toInt()*1000));
 }
+
