@@ -41,8 +41,9 @@ void main() {
     test('출결 여부를 가진 객체가 생성되는지 테스트', () {
       var attendanceInfo = AttendanceInformation(
           subjectName: '프로그래밍 언어론',
-          professorName: '조영일',
-          attendanceDate: DateTime.fromMillisecondsSinceEpoch(
+          studentID: '80017001',
+          studentName: '조영일',
+          dateTime: DateTime.fromMillisecondsSinceEpoch(
               (1683786093.239928 * 1000).toInt()),
           result: AttendanceResult.normal);
       expect(attendanceInfo.subjectName, '프로그래밍 언어론');

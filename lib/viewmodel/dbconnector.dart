@@ -75,7 +75,7 @@ class DBConnectorViewModel {
 
       // 이 부분을 추후 교수 객체로 변경할 수 있음.
       // 이미 사용자가 있다고 검사했으므로 반드시 null이 아닐 것임.
-      final myID = queryMyID.data()!['ID'];
+      final myID = queryMyID.data()!['id'];
 
       // 교수 본인이 가르치는 과목을 쿼리한다.
       final queryInSubjectDB =
