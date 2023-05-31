@@ -1,3 +1,5 @@
+import 'package:check_attendance_professor/model/attendance_information.dart';
+import 'package:check_attendance_professor/view_model/attendance_management.dart';
 import 'package:flutter/material.dart';
 
 /// 학생들 출결 상태 확인 및 관리 페이지(과목 목록에서 과목 선택 시 화면)
@@ -11,13 +13,10 @@ class AttendanceManagementPage extends StatefulWidget {
 }
 
 class _AttendanceManagementPageState extends State<AttendanceManagementPage> {
-  ///학생 리스트
-  List<Map<String, dynamic>> _dataList = [
-    {'name': '이정민', 'id': '123456789', 'attendance': '출석'},
-    {'name': '윤솔빈', 'id': '987654321', 'attendance': '출석'},
-    {'name': '한동민', 'id': '192837465', 'attendance': '출석'},
-  ];
+  var viewModel = DBConnectorViewModel();
+  List<AttendanceInformation?> _dataList = [];
 
+  ///학생 리스트
   @override
   Widget build(BuildContext context) {
     return Scaffold(
