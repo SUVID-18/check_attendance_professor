@@ -64,9 +64,6 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-  assets:
-    - asset/image/JST.jpg
-
   # To add assets to your application, add an assets section, like this:
   assets:
     - asset/image/swu_att_bg.png
