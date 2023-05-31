@@ -1,5 +1,6 @@
 import 'package:check_attendance_professor/view_model/login.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 /// 로그인 시 나타나는 페이지 입니다.
 class LoginPage extends StatefulWidget {
@@ -53,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 12.0),
               TextField(
                 controller: viewModel.passwordController,
-            decoration: InputDecoration(filled: true, labelText: 'Passward'),
+            decoration: InputDecoration(filled: true, labelText: 'Password'),
             obscureText: true,
           ),
 
@@ -78,6 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.pop(context);
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('로그인이 완료되었습니다.')));
+                      context.go('/');
                     });
                   },
                   child: Text('로그인'))
