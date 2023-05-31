@@ -40,6 +40,7 @@ void main() {
   group('출결 여부를 가진 객체 테스트', () {
     test('출결 여부를 가진 객체가 생성되는지 테스트', () {
       var attendanceInfo = AttendanceInformation(
+          documentId: 'None',
           subjectName: '프로그래밍 언어론',
           studentID: '80017001',
           studentName: '조영일',
