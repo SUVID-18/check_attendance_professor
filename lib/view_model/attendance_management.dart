@@ -1,7 +1,7 @@
-import 'package:check_attendance_professor/model/subject.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:check_attendance_professor/model/attendance_information.dart';
+import 'package:flutter/cupertino.dart';
 
 class AttendanceManagementViewModel {
 
@@ -25,7 +25,7 @@ class AttendanceManagementViewModel {
   /// 로그인 한 교수의 과목을 수강하는 학생들의 출결 정보를 가져오는 메서드이다.
   ///
   /// 만약 쿼리 결과가 존재하지 않으면 null을 반환한다.
-  /// 이 때, 로그인 한 교수의 과목 출결 정보 이외의 출결 기록은 가져오지 않는다.
+  /// 이때, 로그인 한 교수의 과목 출결 정보 이외의 출결 기록은 가져오지 않는다.
   ///
   /// 이 메서드는 데이터베이스로부터 데이터를 로드해야 하므로 FutureBuilder를 사용해야 한다.
   Future<List<AttendanceInformation>?> loadAttendanceDB() async {
@@ -46,7 +46,7 @@ class AttendanceManagementViewModel {
       // 교수 저장용 출결 기록
       await db.collection(currentUser.uid).get().then((event) {
         attendanceHistory = event.docs
-            .map((doc) => AttendanceInformation.fromJson(doc.data()))
+            .map((doc) => AttendanceInformation.fromJson(documentId: doc.id, json: doc.data()))
             .toList();
       }).onError((error, stackTrace) {
         throw Exception(error);
@@ -59,7 +59,27 @@ class AttendanceManagementViewModel {
   }
 
   /// 선택한 학생의 출결 정보를 수정하는 메서드이다.
-  Future<void> editAttendanceInformation() async {
+  ///
+  /// 출결 정보를 바꾸고 싶으면 출결기록 객체 [studentHistory]와 바꾸고 싶은 상태 [editResult]를 넘겨
+  /// 데이터베이스의 데이터를 수정한다.
+  ///
+  /// 해당 메서드를 사용해 데이터를 수정한 이후 setState()를 호출하여 갱신을 한다.
+  ///
+  /// 이때, [editAttendanceInformation] 메서드는 Future<void>를 반환하므로 [FutureBuilder]를 사용해야 한다.
+  Future<void> editAttendanceInformation(
+      AttendanceInformation studentHistory,
+      AttendanceResult editResult) async {
 
+    var db = FirebaseFirestore.instance;
+    var targetHistory = studentHistory.documentId;
+    var currentUser = FirebaseAuth.instance.currentUser;
+
+    // 인자로 받은 출결기록 객체의 문서 ID를 참조해 수정할 데이터를 찾는다.
+    if (currentUser!=null){
+      return await db.collection('attendance_history').doc('professor').collection(currentUser.uid).doc(targetHistory)
+          .update({'result': editResult.toString()});
+    } else{
+      throw Exception('로그인 된 사용자가 존재하지 않습니다.');
+    }
   }
 }
