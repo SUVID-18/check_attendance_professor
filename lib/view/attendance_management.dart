@@ -19,7 +19,7 @@ class _AttendanceManagementPageState extends State<AttendanceManagementPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       //appBar 부분
-      appBar: AppBar(title: Text('학생 출결관리')),
+      appBar: AppBar(title: const Text('학생 출결관리')),
 
       //ListView를 사용해 리스트를 동적으로 나타내도록 함
       body: FutureBuilder<List<AttendanceInformation>?>(
@@ -27,11 +27,11 @@ class _AttendanceManagementPageState extends State<AttendanceManagementPage> {
           builder: (BuildContext context,
               AsyncSnapshot<List<AttendanceInformation>?> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator.adaptive(),
               );
             } else if (snapshot.hasError) {
-              return Text('Error');
+              return const Text('Error');
             } else if (snapshot.data == null) {
               return Container();
             } else {
@@ -48,7 +48,7 @@ class _AttendanceManagementPageState extends State<AttendanceManagementPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ExpansionTile(
-                        shape: Border(),
+                        shape: const Border(),
                         title: Column(
                           children: [
                             Text(
@@ -80,14 +80,14 @@ class _AttendanceManagementPageState extends State<AttendanceManagementPage> {
                                 fontSize: 23.0,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                           ],
                         ),
                         children: [
-                          Text('출결 결과 변경하기',
-                              style: const TextStyle(
+                          const Text('출결 결과 변경하기',
+                              style: TextStyle(
                                   fontSize: 23.0, fontWeight: FontWeight.bold)),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -99,8 +99,8 @@ class _AttendanceManagementPageState extends State<AttendanceManagementPage> {
                                         AttendanceResult.normal);
                                     setState(() {});
                                   },
-                                  child: Text('출석',
-                                      style: const TextStyle(
+                                  child: const Text('출석',
+                                      style: TextStyle(
                                           fontSize: 20.0,
                                           fontWeight: FontWeight.bold))),
                               TextButton(
@@ -110,8 +110,8 @@ class _AttendanceManagementPageState extends State<AttendanceManagementPage> {
                                         AttendanceResult.tardy);
                                     setState(() {});
                                   },
-                                  child: Text('지각',
-                                      style: const TextStyle(
+                                  child: const Text('지각',
+                                      style: TextStyle(
                                           fontSize: 20.0,
                                           fontWeight: FontWeight.bold))),
                               TextButton(
@@ -121,8 +121,8 @@ class _AttendanceManagementPageState extends State<AttendanceManagementPage> {
                                         AttendanceResult.absent);
                                     setState(() {});
                                   },
-                                  child: Text('결석',
-                                      style: const TextStyle(
+                                  child: const Text('결석',
+                                      style: TextStyle(
                                           fontSize: 20.0,
                                           fontWeight: FontWeight.bold))),
                             ],

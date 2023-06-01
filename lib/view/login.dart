@@ -27,46 +27,47 @@ class _LoginPageState extends State<LoginPage> {
         children: <Widget>[
           ///상단 출석체크 위젯
           ///asset/image/swu_horizontalLogo.png 이미지 추가해놓음
-          SizedBox(height: 80.0),
+          const SizedBox(height: 80.0),
           Column(
             children: <Widget>[
               Image.asset('asset/image/swu_horizontalLogo.png'),
-              SizedBox(height: 1.0),
-              Text(
+              const SizedBox(height: 1.0),
+              const Text(
                 '수원대 전자출결 앱',
                 style: TextStyle(fontSize: 30),
               ),
             ],
-              ),
-
-              ///아이디 및 비밀번호 입력란
-              ///_usernameController 변수 사용
-              SizedBox(
-                height: 60.0,
-              ),
-              TextField(
-                controller: viewModel.userEmailController,
-            decoration: InputDecoration(filled: true, labelText: 'Email'),
           ),
 
-              ///비밀번호 입력란
-              ///obscureText 사용 비밀번호 입력시 숨김
-              SizedBox(height: 12.0),
-              TextField(
-                controller: viewModel.passwordController,
-            decoration: InputDecoration(filled: true, labelText: 'Password'),
+          ///아이디 및 비밀번호 입력란
+              ///_usernameController 변수 사용
+          const SizedBox(
+            height: 60.0,
+          ),
+          TextField(
+            controller: viewModel.userEmailController,
+            decoration: const InputDecoration(filled: true, labelText: 'Email'),
+          ),
+
+          ///비밀번호 입력란
+          ///obscureText 사용 비밀번호 입력시 숨김
+          const SizedBox(height: 12.0),
+          TextField(
+            controller: viewModel.passwordController,
+            decoration:
+                const InputDecoration(filled: true, labelText: 'Password'),
             obscureText: true,
           ),
 
-              ///이벤트 버튼 구현 위젯
-              ButtonBar(
-                children: <Widget>[
-                  ElevatedButton(
-                      onPressed: () async {
+          ///이벤트 버튼 구현 위젯
+          ButtonBar(
+            children: <Widget>[
+              ElevatedButton(
+                  onPressed: () async {
                         showDialog(
                       barrierDismissible: false,
                       context: context,
-                      builder: (context) => Dialog(
+                          builder: (context) => const Dialog(
                         child: Row(
                           children: [
                             CircularProgressIndicator(),
@@ -78,20 +79,20 @@ class _LoginPageState extends State<LoginPage> {
                     viewModel.signIn().then((_) {
                       Navigator.pop(context);
                       ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('로그인이 완료되었습니다.')));
+                          const SnackBar(content: Text('로그인이 완료되었습니다.')));
                       context.go('/');
                     });
                   },
-                  child: Text('로그인'))
+                  child: const Text('로그인'))
             ],
               ),
 
               /// 하단 로고
               /// 이미지 에셋 해놓음
               Column(children: [
-                SizedBox(
-                  height: 50,
-                ),
+                const SizedBox(
+              height: 50,
+            ),
                 Image.asset('asset/image/swu_bluelogo.png')
           ]),
             ],

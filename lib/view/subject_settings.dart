@@ -18,25 +18,24 @@ class _SubjectSettingsPageState extends State<SubjectSettingsPage> {
     // TODO(front): 과목 관련 설정 화면 구성하기
     return Scaffold(
       appBar: AppBar(
-        title: Text("과목 설정"),
+        title: const Text("과목 설정"),
       ),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           children: [
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
 
             ///상단 부제목 부분
-            Row(
-              children: const [
+            const Row(
+              children: [
                 Icon(
                   Icons.watch,
                   color: Colors.blue,
                 ),
                 SizedBox(width: 10),
                 Text('출결 관리',
-                    style:
-                    TextStyle(fontSize: 25, fontWeight: FontWeight.bold))
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold))
               ],
             ),
 
@@ -108,22 +107,21 @@ class _SubjectSettingsPageState extends State<SubjectSettingsPage> {
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.grey[600])),
+
                         ///설정 시간을 나타내주는 텍스트
-                        Text('$validTime분',style: TextStyle(
-                          fontSize: 15
-                        ),),
-                        const Icon(Icons.arrow_forward_ios,
-                            color: Colors.grey)
+                        Text(
+                          '$validTime분',
+                          style: const TextStyle(fontSize: 15),
+                        ),
+                        const Icon(Icons.arrow_forward_ios, color: Colors.grey)
                       ],
-                    )
-                )
-            ),
-            SizedBox(height: 20),
+                    ))),
+            const SizedBox(height: 20),
 
             ///과목 관리 탭
             ///상단 테마
-            Row(
-              children: const [
+            const Row(
+              children: [
                 Icon(
                   Icons.book,
                   color: Colors.blue,
@@ -148,7 +146,7 @@ class _SubjectSettingsPageState extends State<SubjectSettingsPage> {
                     context: context,
                     builder: (BuildContext context) => AlertDialog(
                             title: const Text('과목 삭제'),
-                            content: SizedBox(
+                        content: const SizedBox(
                               width: double.maxFinite,
                               child: Row(
                                 children: [Text('삭제하시겠습니까?')],
