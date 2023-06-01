@@ -1,5 +1,5 @@
 import 'package:check_attendance_professor/model/attendance_information.dart';
-import 'package:check_attendance_professor/viewmodel/dbconnector.dart';
+import 'package:check_attendance_professor/view_model/attendance_management.dart';
 import 'package:flutter/material.dart';
 
 /// 학생들 출결 상태 확인 및 관리 페이지(과목 목록에서 과목 선택 시 화면)
@@ -13,7 +13,7 @@ class AttendanceManagementPage extends StatefulWidget {
 }
 
 class _AttendanceManagementPageState extends State<AttendanceManagementPage> {
-  var viewModel = DBConnectorViewModel();
+  var viewModel = AttendanceManagementViewModel();
 
   @override
   Widget build(BuildContext context) {
