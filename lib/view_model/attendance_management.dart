@@ -76,8 +76,12 @@ class AttendanceManagementViewModel {
 
     // 인자로 받은 출결기록 객체의 문서 ID를 참조해 수정할 데이터를 찾는다.
     if (currentUser!=null){
-      return await db.collection('attendance_history').doc('professor').collection(currentUser.uid).doc(targetHistory)
-          .update({'result': editResult.toString()});
+      return await db
+          .collection('attendance_history')
+          .doc('professor')
+          .collection(currentUser.uid)
+          .doc(targetHistory)
+          .update({'result': editResult.name});
     } else{
       throw Exception('로그인 된 사용자가 존재하지 않습니다.');
     }
