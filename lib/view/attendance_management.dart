@@ -1,5 +1,5 @@
 import 'package:check_attendance_professor/model/attendance_information.dart';
-import 'package:check_attendance_professor/viewmodel/dbconnector.dart';
+import 'package:check_attendance_professor/view_model/attendance_management.dart';
 import 'package:flutter/material.dart';
 
 /// 학생들 출결 상태 확인 및 관리 페이지(과목 목록에서 과목 선택 시 화면)
@@ -13,7 +13,7 @@ class AttendanceManagementPage extends StatefulWidget {
 }
 
 class _AttendanceManagementPageState extends State<AttendanceManagementPage> {
-  var viewModel = DBConnectorViewModel();
+  var viewModel = AttendanceManagementViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -44,41 +44,12 @@ class _AttendanceManagementPageState extends State<AttendanceManagementPage> {
                 itemBuilder: (context, index) {
                   ///학생별 출결 정보를 변경 할 수 있도록 하는 gesturedetector
                   ///alertDialog를 통해 각 상태별 버튼을 누르면 출결 정보가 변경 된다
-                  return GestureDetector(
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) => AlertDialog(
-                                  title: Text("출결 수정",
-                                      textAlign: TextAlign.center),
-                                  //출결 버튼
-                                  actions: <Widget>[
-                                    TextButton(
-                                        onPressed: () {
-                                          setState(() {});
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text('출석')),
-                                    TextButton(
-                                        onPressed: () {
-                                          setState(() {});
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text('지각')),
-                                    TextButton(
-                                        onPressed: () {
-                                          setState(() {});
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text('결석')),
-                                  ]));
-                    },
-                    //이름과 학번, 출결 정보가 보인다
-                    //이정민식 디자인~
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
+                  return Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ExpansionTile(
+                        shape: Border(),
+                        title: Column(
                           children: [
                             Text(
                               attendanceList[index].subjectName,
@@ -114,6 +85,49 @@ class _AttendanceManagementPageState extends State<AttendanceManagementPage> {
                             ),
                           ],
                         ),
+                        children: [
+                          Text('출결 결과 변경하기',
+                              style: const TextStyle(
+                                  fontSize: 23.0, fontWeight: FontWeight.bold)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              TextButton(
+                                  onPressed: () async {
+                                    await viewModel.editAttendanceInformation(
+                                        attendanceList[index],
+                                        AttendanceResult.normal);
+                                    setState(() {});
+                                  },
+                                  child: Text('출석',
+                                      style: const TextStyle(
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.bold))),
+                              TextButton(
+                                  onPressed: () async {
+                                    await viewModel.editAttendanceInformation(
+                                        attendanceList[index],
+                                        AttendanceResult.tardy);
+                                    setState(() {});
+                                  },
+                                  child: Text('지각',
+                                      style: const TextStyle(
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.bold))),
+                              TextButton(
+                                  onPressed: () async {
+                                    await viewModel.editAttendanceInformation(
+                                        attendanceList[index],
+                                        AttendanceResult.absent);
+                                    setState(() {});
+                                  },
+                                  child: Text('결석',
+                                      style: const TextStyle(
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.bold))),
+                            ],
+                          )
+                        ],
                       ),
                     ),
                   );
