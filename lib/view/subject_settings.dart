@@ -21,7 +21,8 @@ class _SubjectSettingsPageState extends State<SubjectSettingsPage> {
         title: Text("과목 설정"),
       ),
       body: SafeArea(
-        child: Column(
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
           children: [
             SizedBox(height: 10),
 
@@ -129,56 +130,40 @@ class _SubjectSettingsPageState extends State<SubjectSettingsPage> {
                 ),
                 SizedBox(width: 10),
                 Text('과목 관리',
-                    style:
-                    TextStyle(fontSize: 25, fontWeight: FontWeight.bold))
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold))
               ],
             ),
+
             ///과목 삭제
             //AlrertDialog를 띄워 과목 삭제 여부를 물어보게끔 구현함
-            GestureDetector(
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                        title: const Text('과목 삭제'),
-                        content: SizedBox(
-                          width: double.maxFinite,
-                          child: Row(
-                            children: [
-                              Text('삭제하시겠습니까?')
-                            ],
-                          ),
-                        ),
-                          actions: <Widget>[
-                            ElevatedButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: const Text('취소')),
-                            TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: const Text('확인'))
-                          ]
-                      )
-                  );
-                },
-                //안쪽 여백을 위해 Container가 아닌 padding을 이용
-                child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 8, horizontal: 20),
-                    child: Row(
-                      //여백을 주기위한 spaceBetween
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('과목 삭제',
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.grey[600])),
-                        const Icon(Icons.delete,
-                            color: Colors.grey)
-                      ],
-                    )
-                )
-            ),
+            ListTile(
+              title: Text('과목 삭제',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey[600])),
+              trailing: const Icon(Icons.delete, color: Colors.grey),
+              onTap: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                            title: const Text('과목 삭제'),
+                            content: SizedBox(
+                              width: double.maxFinite,
+                              child: Row(
+                                children: [Text('삭제하시겠습니까?')],
+                              ),
+                            ),
+                            actions: <Widget>[
+                              ElevatedButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('취소')),
+                              TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('확인'))
+                            ]));
+              },
+            )
           ],
         ),
       ),
