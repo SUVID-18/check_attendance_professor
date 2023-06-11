@@ -25,7 +25,6 @@ linter:
     #   avoid_print: false  # Uncomment to disable the `avoid_print` rule
     prefer_single_quotes: true
     avoid_returning_this: true
-    avoid_dynamic_calls: true
     test_types_in_equals: true
     avoid_positional_boolean_parameters: true
     flutter_style_todos: true
