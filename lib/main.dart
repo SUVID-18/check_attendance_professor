@@ -5,6 +5,7 @@ import 'package:check_attendance_professor/view/main_page.dart';
 import 'package:check_attendance_professor/view/settings_page.dart';
 import 'package:check_attendance_professor/view/subject_settings.dart';
 import 'package:check_attendance_professor/view/subjects_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -28,10 +29,17 @@ class App extends StatelessWidget {
       builder: (context, state) => const LoginPage(),
     ),
     GoRoute(
+        redirect: (context, state) async {
+          if (FirebaseAuth.instance.currentUser == null) {
+            return '/login';
+          } else {
+            return null;
+          }
+        },
         path: '/',
         builder: (context, state) => const MainPage(
-          appName: appName,
-        ),
+              appName: appName,
+            ),
         routes: [
           GoRoute(
             path: 'settings',

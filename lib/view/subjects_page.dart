@@ -9,7 +9,7 @@ class SubjectPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('과목 목록'),
+        title: const Text('과목 목록'),
       ),
 
       ///카드 사용해서 클릭시 상세정보로 넘어감.
@@ -32,11 +32,11 @@ class SubjectPage extends StatelessWidget {
                     builder: (context) =>
                         Scaffold(
                           appBar: AppBar(
-                            title: Text('상세 정보'),
-                          ),
-                          body: Center(
-                            child: Text('1학년 전공필수'),
-                          ),
+                            title: const Text('상세 정보'),
+                      ),
+                          body: const Center(
+                        child: Text('1학년 전공필수'),
+                      ),
                         ),
                   ),
                 );
@@ -50,8 +50,8 @@ class SubjectPage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("디지털논리회로"),
-                    SizedBox(height: 20),
+                    const Text('디지털논리회로'),
+                    const SizedBox(height: 20),
                     Image.asset('asset/image/JST.jpg'),
                   ],
                 ),
@@ -72,11 +72,11 @@ class SubjectPage extends StatelessWidget {
                     builder: (context) =>
                         Scaffold(
                           appBar: AppBar(
-                            title: Text('상세 정보'),
-                          ),
-                          body: Center(
-                            child: Text('2학년 전공필수'),
-                          ),
+                            title: const Text('상세 정보'),
+                      ),
+                          body: const Center(
+                        child: Text('2학년 전공필수'),
+                      ),
                         ),
                   ),
                 );
@@ -87,43 +87,8 @@ class SubjectPage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("컴퓨터 구조"),
-                    SizedBox(height: 20),
-                    Image.asset('asset/image/JST.jpg'),
-                  ],
-                ),
-              ),
-            ),
-          ),
-
-          Card(
-            clipBehavior: Clip.hardEdge,
-            child: InkWell(
-              splashColor: Colors.blue.withAlpha(30),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        Scaffold(
-                          appBar: AppBar(
-                            title: Text('상세 정보'),
-                          ),
-                          body: Center(
-                            child: Text('2학년 전공선택'),
-                          ),
-                        ),
-                  ),
-                );
-              },
-              child: SizedBox(
-                width: 200,
-                height: 200,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("디지털회로 및 실습"),
-                    SizedBox(height: 20),
+                    const Text('컴퓨터 구조'),
+                    const SizedBox(height: 20),
                     Image.asset('asset/image/JST.jpg'),
                   ],
                 ),
@@ -131,6 +96,41 @@ class SubjectPage extends StatelessWidget {
             ),
           ),
 
+          Card(
+            clipBehavior: Clip.hardEdge,
+            child: InkWell(
+              splashColor: Colors.blue.withAlpha(30),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        Scaffold(
+                          appBar: AppBar(
+                            title: const Text('상세 정보'),
+                      ),
+                          body: const Center(
+                        child: Text('2학년 전공선택'),
+                      ),
+                        ),
+                  ),
+                );
+              },
+              child: SizedBox(
+                width: 200,
+                height: 200,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('디지털회로 및 실습'),
+                    const SizedBox(height: 20),
+                    Image.asset('asset/image/JST.jpg'),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
 
           Card(
             clipBehavior: Clip.hardEdge,
@@ -143,11 +143,11 @@ class SubjectPage extends StatelessWidget {
                     builder: (context) =>
                         Scaffold(
                           appBar: AppBar(
-                            title: Text('상세 정보'),
-                          ),
-                          body: Center(
-                            child: Text('4학년 전공필수'),
-                          ),
+                            title: const Text('상세 정보'),
+                      ),
+                          body: const Center(
+                        child: Text('4학년 전공필수'),
+                      ),
                         ),
                   ),
                 );
@@ -158,8 +158,8 @@ class SubjectPage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("졸업프로젝트"),
-                    SizedBox(height: 20),
+                    const Text('졸업프로젝트'),
+                    const SizedBox(height: 20),
                     Image.asset('asset/image/JST.jpg'),
                   ],
                 ),

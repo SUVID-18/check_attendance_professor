@@ -19,7 +19,7 @@ class _AttendanceManagementPageState extends State<AttendanceManagementPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       //appBar 부분
-      appBar: AppBar(title: Text('학생 출결관리')),
+      appBar: AppBar(title: const Text('학생 출결관리')),
 
       //ListView를 사용해 리스트를 동적으로 나타내도록 함
       body: FutureBuilder<List<AttendanceInformation>?>(
@@ -27,11 +27,11 @@ class _AttendanceManagementPageState extends State<AttendanceManagementPage> {
           builder: (BuildContext context,
               AsyncSnapshot<List<AttendanceInformation>?> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator.adaptive(),
               );
             } else if (snapshot.hasError) {
-              return Text('Error');
+              return const Text('Error');
             } else if (snapshot.data == null) {
               return Container();
             } else {
@@ -44,41 +44,12 @@ class _AttendanceManagementPageState extends State<AttendanceManagementPage> {
                 itemBuilder: (context, index) {
                   ///학생별 출결 정보를 변경 할 수 있도록 하는 gesturedetector
                   ///alertDialog를 통해 각 상태별 버튼을 누르면 출결 정보가 변경 된다
-                  return GestureDetector(
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) => AlertDialog(
-                                  title: Text("출결 수정",
-                                      textAlign: TextAlign.center),
-                                  //출결 버튼
-                                  actions: <Widget>[
-                                    TextButton(
-                                        onPressed: () {
-                                          setState(() {});
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text('출석')),
-                                    TextButton(
-                                        onPressed: () {
-                                          setState(() {});
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text('지각')),
-                                    TextButton(
-                                        onPressed: () {
-                                          setState(() {});
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text('결석')),
-                                  ]));
-                    },
-                    //이름과 학번, 출결 정보가 보인다
-                    //이정민식 디자인~
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
+                  return Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ExpansionTile(
+                        shape: const Border(),
+                        title: Column(
                           children: [
                             Text(
                               attendanceList[index].subjectName,
@@ -109,11 +80,54 @@ class _AttendanceManagementPageState extends State<AttendanceManagementPage> {
                                 fontSize: 23.0,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                           ],
                         ),
+                        children: [
+                          const Text('출결 결과 변경하기',
+                              style: TextStyle(
+                                  fontSize: 23.0, fontWeight: FontWeight.bold)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              TextButton(
+                                  onPressed: () async {
+                                    await viewModel.editAttendanceInformation(
+                                        attendanceList[index],
+                                        AttendanceResult.normal);
+                                    setState(() {});
+                                  },
+                                  child: const Text('출석',
+                                      style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.bold))),
+                              TextButton(
+                                  onPressed: () async {
+                                    await viewModel.editAttendanceInformation(
+                                        attendanceList[index],
+                                        AttendanceResult.tardy);
+                                    setState(() {});
+                                  },
+                                  child: const Text('지각',
+                                      style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.bold))),
+                              TextButton(
+                                  onPressed: () async {
+                                    await viewModel.editAttendanceInformation(
+                                        attendanceList[index],
+                                        AttendanceResult.absent);
+                                    setState(() {});
+                                  },
+                                  child: const Text('결석',
+                                      style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.bold))),
+                            ],
+                          )
+                        ],
                       ),
                     ),
                   );
