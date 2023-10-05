@@ -1,7 +1,8 @@
+import 'package:check_attendance_professor/model/attendance_information.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:check_attendance_professor/model/attendance_information.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 
 class AttendanceManagementViewModel {
 
@@ -31,6 +32,18 @@ class AttendanceManagementViewModel {
   Future<List<AttendanceInformation>?> loadAttendanceDB() async {
     // 데이터베이스는 모든 과목과 모든 학생의 출결 기록을 담은 데이터베이스가 존재하나, 학생과 교수 저장용이 별개로 존재한다.
     // 교수 저장용은 학생 저장용 데이터베이스에 접근이 가능하다.
+
+    if (kDebugMode) {
+      return Future.delayed(const Duration(seconds: 1)).then((value) => [
+            AttendanceInformation(
+                documentId: 'documentId',
+                subjectName: 'subjectName',
+                studentName: 'studentName',
+                studentID: 'studentID',
+                result: AttendanceResult.normal,
+                dateTime: DateTime.now())
+          ]);
+    }
 
     // 교수 저장용 데이터베이스 로드
     var db = FirebaseFirestore.instance
