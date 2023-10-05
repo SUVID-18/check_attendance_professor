@@ -1,4 +1,7 @@
+import 'package:check_attendance_professor/model/subject.dart';
+import 'package:check_attendance_professor/view_model/subject_page.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 /// 본인의 과목 목록이 표시되는 페이지(로그인 이후 실제 메인 페이지로 될 것으로 보임)
 
@@ -7,6 +10,8 @@ class SubjectPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var viewModel = SubjectPageViewModel();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('과목 목록'),
@@ -15,158 +20,73 @@ class SubjectPage extends StatelessWidget {
       ///카드 사용해서 클릭시 상세정보로 넘어감.
       ///총 4개
 
-
-      body: GridView.count(
-        crossAxisCount: 2,
-        children: [
-          Card(
-            clipBehavior: Clip.hardEdge,
-            child: InkWell(
-              splashColor: Colors.blue.withAlpha(30),
-              ///한번 클릭시
-              onTap: () {
-                Navigator.push(
-                  context,
-                  ///다음 화면으로 이동
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        Scaffold(
-                          appBar: AppBar(
-                            title: const Text('상세 정보'),
-                      ),
-                          body: const Center(
-                        child: Text('1학년 전공필수'),
-                      ),
-                        ),
-                  ),
-                );
-              },
-
-              ///카드안에 교과목 + 간단한 사진 등록했음.
-              /// 이미지는 어차피 자기 과목들만 뜨니깐 교실 앞 호수 같은거 이용해도 될듯.
-              child: SizedBox(
-                width: 200,
-                height: 200,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+      body: Center(
+        child: FutureBuilder<List<Subject>?>(
+            future: viewModel.loadSubjectDB(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else if (snapshot.data == null) {
+                return Column(
                   children: [
-                    const Text('디지털논리회로'),
-                    const SizedBox(height: 20),
-                    Image.asset('asset/image/JST.jpg'),
+                    const Icon(Icons.help),
+                    Text(
+                      '등록된 과목이 존재하지 않습니다.',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    )
                   ],
-                ),
-              ),
-              ),
-            ),
-
-
-
-          Card(
-            clipBehavior: Clip.hardEdge,
-            child: InkWell(
-              splashColor: Colors.blue.withAlpha(30),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        Scaffold(
-                          appBar: AppBar(
-                            title: const Text('상세 정보'),
-                      ),
-                          body: const Center(
-                        child: Text('2학년 전공필수'),
-                      ),
-                        ),
-                  ),
                 );
-              },
-              child: SizedBox(
-                width: 200,
-                height: 200,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text('컴퓨터 구조'),
-                    const SizedBox(height: 20),
-                    Image.asset('asset/image/JST.jpg'),
-                  ],
-                ),
-              ),
-            ),
-          ),
-
-          Card(
-            clipBehavior: Clip.hardEdge,
-            child: InkWell(
-              splashColor: Colors.blue.withAlpha(30),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        Scaffold(
-                          appBar: AppBar(
-                            title: const Text('상세 정보'),
-                      ),
-                          body: const Center(
-                        child: Text('2학년 전공선택'),
-                      ),
+              } else {
+                return GridView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      clipBehavior: Clip.hardEdge,
+                      child: InkWell(
+                        splashColor: Colors.blue.withAlpha(30),
+                        onTap: () => context.push(
+                            '/subjects/${snapshot.data![index].subjectID}'),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                snapshot.data![index].subjectName,
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
+                              ),
+                            ),
+                            Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      const Icon(Icons.location_city),
+                                      Text(snapshot.data![index].major)
+                                    ],
+                                  ),
+                                ),
+                                const Divider(),
+                                ListTile(
+                                  leading: const Icon(Icons.settings),
+                                  title: const Text('과목 설정'),
+                                  onTap: () => context.push(
+                                      '/subjects/${snapshot.data![index].subjectID}/settings'),
+                                )
+                              ],
+                            ),
+                          ],
                         ),
-                  ),
-                );
-              },
-              child: SizedBox(
-                width: 200,
-                height: 200,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text('디지털회로 및 실습'),
-                    const SizedBox(height: 20),
-                    Image.asset('asset/image/JST.jpg'),
-                  ],
-                ),
-              ),
-            ),
-          ),
-
-
-          Card(
-            clipBehavior: Clip.hardEdge,
-            child: InkWell(
-              splashColor: Colors.blue.withAlpha(30),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        Scaffold(
-                          appBar: AppBar(
-                            title: const Text('상세 정보'),
                       ),
-                          body: const Center(
-                        child: Text('4학년 전공필수'),
-                      ),
-                        ),
-                  ),
+                    );
+                  },
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2),
                 );
-              },
-              child: SizedBox(
-                width: 200,
-                height: 200,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text('졸업프로젝트'),
-                    const SizedBox(height: 20),
-                    Image.asset('asset/image/JST.jpg'),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
+              }
+            }),
       ),
     );
   }
