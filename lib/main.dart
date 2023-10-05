@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:check_attendance_professor/firebase_options.dart';
 import 'package:check_attendance_professor/view/attendance_management.dart';
 import 'package:check_attendance_professor/view/login.dart';
@@ -7,8 +9,24 @@ import 'package:check_attendance_professor/view/subject_settings.dart';
 import 'package:check_attendance_professor/view/subjects_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+/// 릴리즈 모드 여부에 따라 리다이렉트 여부를 지정하는 함수
+///
+/// 릴리즈 모드인 경우 로그인이 되어있지 않은 경우 로그인을 진행하도록 강제한다.
+/// 릴리즈 모드가 아닌 경우 원할한 개발을 위해 로그인 과정을 건너뛴다.
+FutureOr<String?> loginRedirect(context, state) async {
+  if (!kReleaseMode) {
+    return null;
+  }
+  if (FirebaseAuth.instance.currentUser == null) {
+    return '/login';
+  } else {
+    return null;
+  }
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,13 +47,7 @@ class App extends StatelessWidget {
       builder: (context, state) => const LoginPage(),
     ),
     GoRoute(
-        redirect: (context, state) async {
-          if (FirebaseAuth.instance.currentUser == null) {
-            return '/login';
-          } else {
-            return null;
-          }
-        },
+        redirect: loginRedirect,
         path: '/',
         builder: (context, state) => const MainPage(
               appName: appName,
