@@ -1,6 +1,5 @@
 import 'package:check_attendance_professor/view_model/settings.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 /// 앱 내 환경설정에 해당되는 페이지 입니다.
 ///
@@ -13,7 +12,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  var viewModel = SettingsViewModel();
+  late var viewModel = SettingsViewModel(context: context);
 
   @override
   Widget build(BuildContext context) {
@@ -100,13 +99,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     onPressed: () => Navigator.pop(context),
                                     child: const Text('취소')),
                                 ElevatedButton(
-                                    onPressed: () {
-                                      viewModel.signOut().then((_) {
-                                        if (context.mounted) {
-                                          context.go('/');
-                                        }
-                                      });
-                                    },
+                                    onPressed: () => viewModel.signOut(),
                                     child: const Text('확인'))
                               ]));
                 },
