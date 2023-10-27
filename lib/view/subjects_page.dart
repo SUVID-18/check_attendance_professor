@@ -1,4 +1,5 @@
 import 'package:check_attendance_professor/model/subject.dart';
+import 'package:check_attendance_professor/view/styles.dart';
 import 'package:check_attendance_professor/view_model/subject_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -27,14 +28,8 @@ class SubjectPage extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
               } else if (snapshot.data == null) {
-                return Column(
-                  children: [
-                    const Icon(Icons.help),
-                    Text(
-                      '등록된 과목이 존재하지 않습니다.',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    )
-                  ],
+                return const ResultNotFound(
+                  text: '등록된 과목이 존재하지 않습니다.',
                 );
               } else {
                 return GridView.builder(

@@ -1,4 +1,5 @@
 import 'package:check_attendance_professor/model/attendance_information.dart';
+import 'package:check_attendance_professor/view/styles.dart';
 import 'package:check_attendance_professor/view_model/attendance_management.dart';
 import 'package:flutter/material.dart';
 
@@ -32,8 +33,11 @@ class _AttendanceManagementPageState extends State<AttendanceManagementPage> {
               );
             } else if (snapshot.hasError) {
               return const Text('Error');
-            } else if (snapshot.data == null) {
-              return Container();
+            } else if ((snapshot.data == null) || (snapshot.data!.isEmpty)) {
+              return const Center(
+                  child: ResultNotFound(
+                text: '확인 가능한 출결 기록이 존재하지 않습니다.',
+              ));
             } else {
               var attendanceList = snapshot.data!;
               return ListView.builder(
