@@ -1,3 +1,4 @@
+import 'package:check_attendance_professor/view_model/subject_settings.dart';
 import 'package:flutter/material.dart';
 
 /// 과목 관련 설정(유효 출결시간은 언제로 할지.., 과목을 버릴지..) 페이지
@@ -12,6 +13,7 @@ class SubjectSettingsPage extends StatefulWidget {
 class _SubjectSettingsPageState extends State<SubjectSettingsPage> {
   ///유효시간 설정 변수
   int validTime = 0;
+  var viewModel = SubjectSettingsViewModel(validTime: 0);
 
   @override
   Widget build(BuildContext context) {
