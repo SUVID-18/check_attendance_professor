@@ -62,6 +62,7 @@ class _SubjectSettingsPageState extends State<SubjectSettingsPage> {
                                       setState(() {
                                         validTime = 5;
                                       });
+                                      viewModel.updateValidTime(5);
                                       Navigator.pop(context);
                                       },
                                     child: const Text('5분')),

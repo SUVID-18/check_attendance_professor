@@ -31,6 +31,7 @@ class SubjectSettingsViewModel {
 
   void updateValidTime(int validTime) {
     // final docRef = FirebaseFirestore.instance.collection('collectionPath')
-    // FirebaseFirestore.instance.collection(collectionPath)
+    var subjectRef = FirebaseFirestore.instance.collection('subjects');
+    print("호출 테스트");
   }
 }
