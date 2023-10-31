@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:intl/intl.dart';
 
 // 데이터베이스에 저장된 수업 시작시간과 종료시간은 milliseconds로 저장되어 있다고 가정하였음.
 
@@ -8,6 +7,8 @@ import 'package:intl/intl.dart';
 class Subject {
 
   /// 과목이 배정된 요일.
+  ///
+  /// 요일이 int형으로 저장되어 있으므로 daytoString() 메서드를 사용하여 String 변환을 한다.
   final int dayWeek;
 
   /// 과목 학부 분류
@@ -90,26 +91,20 @@ class Subject {
   /// `Firestore`에서 받은 데이터를 [Subject]객체로 반환하는 메서드로 [json]에
   /// `Firestore`에서 받은 데이터를 넣으면 된다.
   ///
-  /// 이 때, Firestore에 저장된 start_at, end_at 필드는 millisecond 단위여야 한다.
   factory Subject.fromJson(Map<String, dynamic> json) {
-    // startAt_time, endAt_time은 각각 수업 시작시간과 종료시간만 저장한 String 자료형이다.
-    DateTime startAt = DateTime.fromMillisecondsSinceEpoch((json['start_at']).toInt()*1000);
-    DateTime endAt = DateTime.fromMillisecondsSinceEpoch((json['end_at']).toInt()*1000);
-    String startAt_time = DateFormat('HH:mm:ss').format(startAt);
-    String endAt_time = DateFormat('HH:mm:ss').format(endAt);
 
-    return Subject(
-        dayWeek: json['day_week'].toInt(), // int 값을 내보냄. 월~일로 변환해 줄 메서드가 필요함.
-        department: json['department'],
-        endAt: endAt_time,
-        subjectID: json['id'],
-        major: json['major'],
-        subjectName: json['name'],
-        professorID: json['professor_id'],
-        startAt: startAt_time,
-        tagUuid: json['tag_uuid'],
-        validTime: json['valid_time']
-    );
+      return Subject(
+          dayWeek: json['day_week'].toInt(),
+          department: json['department'],
+          endAt: json['end_at'],
+          subjectID: json['id'],
+          major: json['major'],
+          subjectName: json['name'],
+          professorID: json['professor_id'],
+          startAt: json['start_at'],
+          tagUuid: json['tag_uuid'],
+          validTime: json['valid_time']
+      );
   }
 }
 // 해결해야 할 과제 : DateTime형 변환, 데이터베이스에서 요일은 숫자로 받아오므로 숫자를 요일로 변환
