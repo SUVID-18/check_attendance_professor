@@ -35,50 +35,53 @@ class SubjectPage extends StatelessWidget {
                 return GridView.builder(
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
-                    return Card(
-                      clipBehavior: Clip.hardEdge,
-                      child: InkWell(
-                        splashColor: Colors.blue.withAlpha(30),
-                        onTap: () => context.push(
-                            '/subjects/${snapshot.data![index].subjectID}'),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                snapshot.data![index].subjectName,
-                                style:
-                                    Theme.of(context).textTheme.headlineSmall,
-                              ),
-                            ),
-                            Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: [
-                                      const Icon(Icons.location_city),
-                                      Text(snapshot.data![index].major)
-                                    ],
-                                  ),
+                    return SizedBox(
+                      height: 400,
+                      child: Card(
+                        clipBehavior: Clip.hardEdge,
+                        child: InkWell(
+                          splashColor: Colors.blue.withAlpha(30),
+                          onTap: () => context.push(
+                              '/subjects/${snapshot.data![index].subjectID}'),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  snapshot.data![index].subjectName,
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
                                 ),
-                                const Divider(),
-                                ListTile(
-                                  leading: const Icon(Icons.settings),
-                                  title: const Text('과목 설정'),
-                                  onTap: () => context.push(
-                                      '/subjects/${snapshot.data![index].subjectID}/settings'),
-                                )
-                              ],
-                            ),
-                          ],
+                              ),
+                              Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        const Icon(Icons.location_city),
+                                        Text(snapshot.data![index].major)
+                                      ],
+                                    ),
+                                  ),
+                                  const Divider(),
+                                  ListTile(
+                                    leading: const Icon(Icons.settings),
+                                    title: const Text('과목 설정'),
+                                    onTap: () => context.push(
+                                        '/subjects/${snapshot.data![index].subjectID}/settings'),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );
                   },
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2),
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 350.0),
                 );
               }
             }),
