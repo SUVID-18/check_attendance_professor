@@ -92,24 +92,23 @@ class Subject {
   ///
   /// 이 때, Firestore에 저장된 start_at, end_at 필드는 millisecond 단위여야 한다.
   factory Subject.fromJson(Map<String, dynamic> json) {
-    // startAt_time, endAt_time은 각각 수업 시작시간과 종료시간만 저장한 String 자료형이다.
-    DateTime startAt = DateTime.fromMillisecondsSinceEpoch((json['start_at']).toInt()*1000);
-    DateTime endAt = DateTime.fromMillisecondsSinceEpoch((json['end_at']).toInt()*1000);
-    String startAt_time = DateFormat('HH:mm:ss').format(startAt);
-    String endAt_time = DateFormat('HH:mm:ss').format(endAt);
+    // DateTime startAt = DateTime.fromMillisecondsSinceEpoch((json['start_at']).toInt()*1000);
+    // DateTime endAt = DateTime.fromMillisecondsSinceEpoch((json['end_at']).toInt()*1000);
+    // String startAt_time = DateFormat('HH:mm:ss').format(startAt);
+    // String endAt_time = DateFormat('HH:mm:ss').format(endAt);
 
-    return Subject(
-        dayWeek: json['day_week'].toInt(), // int 값을 내보냄. 월~일로 변환해 줄 메서드가 필요함.
-        department: json['department'],
-        endAt: endAt_time,
-        subjectID: json['id'],
-        major: json['major'],
-        subjectName: json['name'],
-        professorID: json['professor_id'],
-        startAt: startAt_time,
-        tagUuid: json['tag_uuid'],
-        validTime: json['valid_time']
-    );
+      return Subject(
+          dayWeek: json['day_week'].toInt(), // int 값을 내보냄. 월~일로 변환해 줄 메서드가 필요함.
+          department: json['department'],
+          endAt: json['end_at'],
+          subjectID: json['id'],
+          major: json['major'],
+          subjectName: json['name'],
+          professorID: json['professor_id'],
+          startAt: json['start_at'],
+          tagUuid: json['tag_uuid'],
+          validTime: json['valid_time']
+      );
   }
 }
 // 해결해야 할 과제 : DateTime형 변환, 데이터베이스에서 요일은 숫자로 받아오므로 숫자를 요일로 변환
