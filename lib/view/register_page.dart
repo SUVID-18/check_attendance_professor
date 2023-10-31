@@ -49,6 +49,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     context.push('/');
                   });
                 } catch (error) {
+                  //snackbar출력
                   ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                           content: Text('오류로 인한 회원가입 실패.')));
