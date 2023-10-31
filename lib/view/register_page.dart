@@ -42,6 +42,7 @@ class _RegisterPageState extends State<RegisterPage> {
               onPressed: () {
                 try {
                   viewModel.signUp(name: '이정민', id: '123456').then((_) {
+                    //snackbar출력
                     ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                             content: Text('회원가입 성공')));
