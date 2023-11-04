@@ -1,10 +1,14 @@
+import 'package:check_attendance_professor/model/lecture.dart';
 import 'package:check_attendance_professor/view_model/subject_settings.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 /// 과목 관련 설정(유효 출결시간은 언제로 할지.., 과목을 버릴지..) 페이지
 
 class SubjectSettingsPage extends StatefulWidget {
-  const SubjectSettingsPage({Key? key}) : super(key: key);
+  final String subjectID;
+  const SubjectSettingsPage({Key? key, required this.subjectID}) : super(key: key);
 
   @override
   State<SubjectSettingsPage> createState() => _SubjectSettingsPageState();
@@ -13,7 +17,7 @@ class SubjectSettingsPage extends StatefulWidget {
 class _SubjectSettingsPageState extends State<SubjectSettingsPage> {
   ///유효시간 설정 변수
   int validTime = 0;
-  var viewModel = SubjectSettingsViewModel(validTime: 0);
+  late var viewModel = SubjectSettingsViewModel(subjectID: widget.subjectID);
 
   @override
   Widget build(BuildContext context) {
@@ -58,36 +62,27 @@ class _SubjectSettingsPageState extends State<SubjectSettingsPage> {
                             child: Row(
                               children: [
                                 TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        validTime = 5;
-                                      });
-                                      viewModel.updateValidTime(5);
-                                      Navigator.pop(context);
+                                    onPressed: () async{
+                                        await viewModel.updateValidTime(5);
+                                        Navigator.pop(context);
                                       },
                                     child: const Text('5분')),
                                 TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        validTime = 10;
-                                      });
-                                      Navigator.pop(context);
+                                    onPressed: () async{
+                                        await viewModel.updateValidTime(10);
+                                        Navigator.pop(context);
                                     },
                                     child: const Text('10분')),
                                 TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        validTime = 15;
-                                      });
-                                      Navigator.pop(context);
+                                    onPressed: () async{
+                                        await viewModel.updateValidTime(15);
+                                        Navigator.pop(context);
                                     },
                                     child: const Text('15분')),
                                 TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        validTime = 30;
-                                      });
-                                      Navigator.pop(context);
+                                    onPressed: () async{
+                                        await viewModel.updateValidTime(30);
+                                        Navigator.pop(context);
                                     },
                                     child: const Text('30분')),
                               ],
@@ -112,10 +107,19 @@ class _SubjectSettingsPageState extends State<SubjectSettingsPage> {
                                 color: Colors.grey[600])),
 
                         ///설정 시간을 나타내주는 텍스트
-                        Text(
-                          '$validTime분',
-                          style: const TextStyle(fontSize: 15),
-                        ),
+                        StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                            stream: viewModel.getValidTime(),
+                            builder: (context, snapshot) {
+                              if ((snapshot.connectionState ==
+                                      ConnectionState.waiting) ||
+                                  (snapshot.data == null)) {
+                                return Container();
+                              }
+                              return Text(
+                                '${Lecture.fromJson(snapshot.data!.docs.first.data()).validTime}분',
+                                style: const TextStyle(fontSize: 15),
+                              );
+                            }),
                         const Icon(Icons.arrow_forward_ios, color: Colors.grey)
                       ],
                     ))),
@@ -160,7 +164,10 @@ class _SubjectSettingsPageState extends State<SubjectSettingsPage> {
                                   onPressed: () => Navigator.pop(context),
                                   child: const Text('취소')),
                               TextButton(
-                                  onPressed: () => Navigator.pop(context),
+                                  onPressed: () {
+                                    viewModel.deleteSubject();
+                                    context.go('/subjects');
+                                  },
                                   child: const Text('확인'))
                             ]));
               },

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:check_attendance_professor/firebase_options.dart';
 import 'package:check_attendance_professor/view/attendance_management.dart';
 import 'package:check_attendance_professor/view/login.dart';
+import 'package:check_attendance_professor/view/main_page.dart';
 import 'package:check_attendance_professor/view/settings_page.dart';
 import 'package:check_attendance_professor/view/subject_settings.dart';
 import 'package:check_attendance_professor/view/subjects_page.dart';
@@ -48,27 +49,39 @@ class App extends StatelessWidget {
     GoRoute(
         redirect: loginRedirect,
         path: '/',
-        builder: (context, state) => const SubjectPage(),
+        builder: (context, state) => const MainPage(
+              appName: appName,
+            ),
         routes: [
           GoRoute(
             path: 'settings',
             builder: (context, state) => const SettingsPage(),
           ),
           GoRoute(
-              path: ':id',
-              builder: (context, state) {
-                // TODO(backend): 과목 정보에 따라 인자값을 넘기도록 구현 예정
-                return const AttendanceManagementPage();
-              },
+              path: 'subjects',
+              builder: (context, state) => const SubjectPage(),
               routes: [
-                // 위에 있는거랑 다름. 얘는 /<과목ID>/settings임.
                 GoRoute(
-                  path: 'settings',
-                  builder: (context, state) => const SubjectSettingsPage(),
-                ),
-              ])
+                    path: ':id',
+                    builder: (context, state) {
+                      // TODO(backend): 과목 정보에 따라 인자값을 넘기도록 구현 예정
+                      return const AttendanceManagementPage();
+                    },
+                    routes: [
+                      // 위에 있는거랑 다름. 얘는 /subjects/<과목ID>/settings임.
+                      GoRoute(
+                          path: 'settings',
+                          builder: (context, state) {
+                            String? subjectID = state.pathParameters['id'];
+
+                            return SubjectSettingsPage(subjectID: subjectID!);
+                          },
+                      ),
+                    ])
+              ]),
         ]),
   ]);
+
 
   @override
   Widget build(BuildContext context) {
