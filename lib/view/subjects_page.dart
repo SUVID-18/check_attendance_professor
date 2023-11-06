@@ -16,6 +16,11 @@ class SubjectPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('과목 목록'),
+        actions: [
+          IconButton(
+              onPressed: () => context.push('/settings'),
+              icon: const Icon(Icons.settings))
+        ],
       ),
 
       ///카드 사용해서 클릭시 상세정보로 넘어감.
@@ -41,8 +46,7 @@ class SubjectPage extends StatelessWidget {
                         clipBehavior: Clip.hardEdge,
                         child: InkWell(
                           splashColor: Colors.blue.withAlpha(30),
-                          onTap: () => context.push(
-                              '/subjects/${snapshot.data![index].subjectID}'),
+                          onTap: () => context.push('/${snapshot.data![index].subjectID}'),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -70,7 +74,7 @@ class SubjectPage extends StatelessWidget {
                                     leading: const Icon(Icons.settings),
                                     title: const Text('과목 설정'),
                                     onTap: () => context.push(
-                                        '/subjects/${snapshot.data![index].subjectID}/settings'),
+                                        '/${snapshot.data![index].subjectID}/settings'),
                                   )
                                 ],
                               ),
