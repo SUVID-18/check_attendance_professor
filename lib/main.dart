@@ -57,14 +57,21 @@ class App extends StatelessWidget {
           GoRoute(
               path: ':id',
               builder: (context, state) {
-                // TODO(backend): 과목 정보에 따라 인자값을 넘기도록 구현 예정
-                return const AttendanceManagementPage();
+                String? subjectID = state.pathParameters['id'];
+                return AttendanceManagementPage(
+                  subjectID: subjectID!,
+                );
               },
               routes: [
                 // 위에 있는거랑 다름. 얘는 /<과목ID>/settings임.
                 GoRoute(
                   path: 'settings',
-                  builder: (context, state) => const SubjectSettingsPage(),
+                  builder: (context, state) {
+                    String? subjectID = state.pathParameters['id'];
+                    return SubjectSettingsPage(
+                      subjectID: subjectID!,
+                    );
+                  },
                 ),
               ])
         ]),

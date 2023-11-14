@@ -6,7 +6,10 @@ import 'package:flutter/material.dart';
 /// 학생들 출결 상태 확인 및 관리 페이지(과목 목록에서 과목 선택 시 화면)
 
 class AttendanceManagementPage extends StatefulWidget {
-  const AttendanceManagementPage({Key? key}) : super(key: key);
+  final String subjectID;
+
+  const AttendanceManagementPage({required this.subjectID, Key? key})
+      : super(key: key);
 
   @override
   State<AttendanceManagementPage> createState() =>
@@ -23,8 +26,8 @@ class _AttendanceManagementPageState extends State<AttendanceManagementPage> {
       appBar: AppBar(title: const Text('학생 출결관리')),
 
       //ListView를 사용해 리스트를 동적으로 나타내도록 함
-      body: FutureBuilder<List<AttendanceInformation>?>(
-          future: viewModel.loadAttendanceDB(),
+      body: StreamBuilder<List<AttendanceInformation>?>(
+          stream: viewModel.loadAttendanceDB(widget.subjectID),
           builder: (BuildContext context,
               AsyncSnapshot<List<AttendanceInformation>?> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
