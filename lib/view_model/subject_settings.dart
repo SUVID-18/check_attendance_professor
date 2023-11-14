@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 /// 과목 설정을 위한 기능을 구현한 뷰모델로, 과목 출결 유효시간 변경 및 과목 삭제를 수행하는 메서드가 내장되어 있다.
 class SubjectSettingsViewModel {
@@ -35,6 +36,17 @@ class SubjectSettingsViewModel {
         .where('id', isEqualTo: subjectID)
         .get();
     return subjectRef.docs.first.reference.update({'valid_time': validTime});
+  }
+
+  /// 과목의 시작 시간을 업데이트 하는 메서드이다.
+  Future<void> updateStartTime(TimeOfDay startTime) async {
+    var subjectRef = await FirebaseFirestore.instance
+        .collection('subjects')
+        .where('id', isEqualTo: subjectID)
+        .get();
+    var result = DateTime(1970, 1, 1, startTime.hour, startTime.minute);
+    return subjectRef.docs.first.reference.update(
+        {'start_at': result.millisecondsSinceEpoch.toString().substring(0, 5)});
   }
 
   /// 과목을 삭제하는 메서드이다.

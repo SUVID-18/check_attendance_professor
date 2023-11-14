@@ -8,7 +8,9 @@ import 'package:go_router/go_router.dart';
 
 class SubjectSettingsPage extends StatefulWidget {
   final String subjectID;
-  const SubjectSettingsPage({Key? key, required this.subjectID}) : super(key: key);
+
+  const SubjectSettingsPage({Key? key, required this.subjectID})
+      : super(key: key);
 
   @override
   State<SubjectSettingsPage> createState() => _SubjectSettingsPageState();
@@ -18,13 +20,13 @@ class _SubjectSettingsPageState extends State<SubjectSettingsPage> {
   ///유효시간 설정 변수
   int validTime = 0;
   late var viewModel = SubjectSettingsViewModel(subjectID: widget.subjectID);
+  TimeOfDay initialTime = TimeOfDay.now();
 
   @override
   Widget build(BuildContext context) {
-    // TODO(front): 과목 관련 설정 화면 구성하기
     return Scaffold(
       appBar: AppBar(
-        title: const Text("과목 설정"),
+        title: const Text('과목 설정'),
       ),
       body: SafeArea(
         child: ListView(
@@ -56,46 +58,53 @@ class _SubjectSettingsPageState extends State<SubjectSettingsPage> {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) => AlertDialog(
-                          title: const Text('출결 시간 설정'),
-                          content: SizedBox(
-                            width: double.maxFinite,
-                            child: Row(
-                              children: [
-                                TextButton(
-                                    onPressed: () async{
+                            title: const Text('출결 시간 설정'),
+                            content: SizedBox(
+                              width: double.maxFinite,
+                              child: Row(
+                                children: [
+                                  TextButton(
+                                      onPressed: () async {
                                         await viewModel.updateValidTime(5);
-                                        Navigator.pop(context);
+                                        if (context.mounted) {
+                                          Navigator.pop(context);
+                                        }
                                       },
-                                    child: const Text('5분')),
-                                TextButton(
-                                    onPressed: () async{
+                                      child: const Text('5분')),
+                                  TextButton(
+                                      onPressed: () async {
                                         await viewModel.updateValidTime(10);
-                                        Navigator.pop(context);
-                                    },
-                                    child: const Text('10분')),
-                                TextButton(
-                                    onPressed: () async{
+                                        if (context.mounted) {
+                                          Navigator.pop(context);
+                                        }
+                                      },
+                                      child: const Text('10분')),
+                                  TextButton(
+                                      onPressed: () async {
                                         await viewModel.updateValidTime(15);
-                                        Navigator.pop(context);
-                                    },
-                                    child: const Text('15분')),
-                                TextButton(
-                                    onPressed: () async{
+                                        if (context.mounted) {
+                                          Navigator.pop(context);
+                                        }
+                                      },
+                                      child: const Text('15분')),
+                                  TextButton(
+                                      onPressed: () async {
                                         await viewModel.updateValidTime(30);
-                                        Navigator.pop(context);
-                                    },
-                                    child: const Text('30분')),
-                              ],
+                                        if (context.mounted) {
+                                          Navigator.pop(context);
+                                        }
+                                      },
+                                      child: const Text('30분')),
+                                ],
+                              ),
                             ),
-                          ),
-                      )
-                  );
+                          ));
                 },
 
                 //안쪽 여백을 위해 Container가 아닌 padding을 이용
                 child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 8, horizontal: 20),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
                     child: Row(
                       //여백을 주기위한 spaceBetween
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -139,6 +148,25 @@ class _SubjectSettingsPageState extends State<SubjectSettingsPage> {
               ],
             ),
 
+            ListTile(
+              title: Text('과목 시작 시간 변경',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey[600])),
+              trailing: const Icon(Icons.arrow_forward_ios, color: Colors.grey),
+              onTap: () async {
+                var time = await showTimePicker(
+                    context: context, initialTime: initialTime);
+                if (time != null) {
+                  setState(() {
+                    initialTime = time;
+                  });
+                  await viewModel.updateStartTime(time);
+                }
+              },
+            ),
+
             ///과목 삭제
             //AlrertDialog를 띄워 과목 삭제 여부를 물어보게끔 구현함
             ListTile(
@@ -153,7 +181,7 @@ class _SubjectSettingsPageState extends State<SubjectSettingsPage> {
                     context: context,
                     builder: (BuildContext context) => AlertDialog(
                             title: const Text('과목 삭제'),
-                        content: const SizedBox(
+                            content: const SizedBox(
                               width: double.maxFinite,
                               child: Row(
                                 children: [Text('삭제하시겠습니까?')],
