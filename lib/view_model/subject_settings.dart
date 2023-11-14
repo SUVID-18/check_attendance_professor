@@ -45,8 +45,10 @@ class SubjectSettingsViewModel {
         .where('id', isEqualTo: subjectID)
         .get();
     var result = DateTime(1970, 1, 1, startTime.hour, startTime.minute);
-    return subjectRef.docs.first.reference.update(
-        {'start_at': result.millisecondsSinceEpoch.toString().substring(0, 5)});
+    return subjectRef.docs.first.reference.update({
+      'start_at':
+          int.parse(result.millisecondsSinceEpoch.toString().substring(0, 5))
+    });
   }
 
   /// 과목을 삭제하는 메서드이다.
