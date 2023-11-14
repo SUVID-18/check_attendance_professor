@@ -8,9 +8,6 @@ import 'package:go_router/go_router.dart';
 class SettingsViewModel {
   final BuildContext context;
 
-  /// 강의자의 정보
-  late Professor professorInfo;
-
   /// 로그아웃 시 사용되는 메서드
   ///
   /// 로그아웃 버튼을 누를 시 수행하는 동작을 정의합니다.
@@ -40,6 +37,34 @@ class SettingsViewModel {
     }
   }
 
+  /// 강의자 정보를 반환하는 메서드
+  ///
+  /// 계정의 UID를 이용해서 강의자 정보가 담긴 객체를 반환하는 메서드이다.
+  /// 만일 어떠한 문제로 인해 강의자 정보를 찾을 수 없는 경우 `null`을 반환한다.
+  ///
+  /// 해당 메서드는 인터넷 통신에 의한 대기시간이 필요하기에 [Future]형태를 띈다.
+  ///
+  /// ## 예제
+  /// 코드가 너무 길어 생략. [FutureBuilder] 참고바람.
+  ///
+  /// ## 같이보기
+  /// * [Professor]
+  /// * [FutureBuilder]
+  Future<Professor?> getProfessorInfo() async {
+    var user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      var professor = await FirebaseFirestore.instance
+          .collection('professors')
+          .doc(user.uid)
+          .get();
+      var data = professor.data();
+      if (data != null) {
+        return Professor.fromJson(data);
+      }
+    }
+    return null;
+  }
+
   /// 로그인 페이지의 동작을 담당하는 클래스의 생성자
   ///
   /// 로그인 페이지에서 필요한 부분에 대입시키면 된다.
@@ -54,17 +79,5 @@ class SettingsViewModel {
   factory SettingsViewModel({required BuildContext context}) =>
       SettingsViewModel._init(context);
 
-  SettingsViewModel._init(this.context) {
-    var currentUser = FirebaseAuth.instance.currentUser;
-    try {
-      var database = FirebaseFirestore.instance
-          .collection('professors')
-          .doc(currentUser?.uid);
-      database.get().then((value) {
-        professorInfo = Professor.fromJson(value.data()!);
-      });
-    } catch (_) {
-      professorInfo = const Professor('unknwon', '(등록 안됨)');
-    }
-  }
+  SettingsViewModel._init(this.context);
 }

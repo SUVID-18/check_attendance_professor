@@ -1,3 +1,4 @@
+import 'package:check_attendance_professor/model/professor.dart';
 import 'package:check_attendance_professor/view_model/settings.dart';
 import 'package:flutter/material.dart';
 
@@ -60,13 +61,29 @@ class _SettingsPageState extends State<SettingsPage> {
                               title: const Text('계정정보'),
                               content: SizedBox(
                                 width: double.maxFinite,
-                                child: ListView(
-                                  shrinkWrap: true,
-                                  children: [
-                                    Text('이름: ${viewModel.professorInfo.name}'),
-                                    Text('교번: ${viewModel.professorInfo.id}')
-                                  ],
-                                ),
+                                child: FutureBuilder<Professor?>(
+                                    future: viewModel.getProfessorInfo(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const CircularProgressIndicator
+                                            .adaptive();
+                                      } else if (snapshot.data == null) {
+                                        return ListView(
+                                          shrinkWrap: true,
+                                          children: const [
+                                            Text('정보를 찾을 수 없습니다.'),
+                                          ],
+                                        );
+                                      }
+                                      return ListView(
+                                        shrinkWrap: true,
+                                        children: [
+                                          Text('이름: ${snapshot.data!.name}'),
+                                          Text('교번: ${snapshot.data!.id}')
+                                        ],
+                                      );
+                                    }),
                               ),
                               actions: <Widget>[
                                 TextButton(
