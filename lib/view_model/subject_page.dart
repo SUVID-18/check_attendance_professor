@@ -1,6 +1,7 @@
 import 'package:check_attendance_professor/model/subject.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 
 class SubjectPageViewModel{
   // 추후 특정 과목만을 선택했을 때 혹은 검색 옵션이 있다면 인자를 추가해야 할 수 있다.
@@ -29,6 +30,43 @@ class SubjectPageViewModel{
   ///
   /// 이 메서드는 데이터베이스로부터 데이터를 로드해야 하므로 FutureBuilder를 사용해야 한다.
   Future<List<Subject>?> loadSubjectDB() async {
+    if (kDebugMode) {
+      return Future.delayed(const Duration(seconds: 1)).then((_) => [
+            const Subject(
+                dayWeek: 0,
+                department: '컴퓨터 학부',
+                endAt: '23:20:00.000000',
+                subjectID: 'SDy1h3thCVdCu1r5DxPx',
+                major: '컴퓨터SW',
+                subjectName: 'Firebase를 활용한 플랫폼 개발 1',
+                professorID: '0001010',
+                startAt: '15:50:00.000000',
+                tagUuid: '62ad5800-4d36-4dcf-b5eb-4a26a1503a74',
+                validTime: 20),
+            const Subject(
+                dayWeek: 0,
+                department: '컴퓨터 학부',
+                endAt: '23:20:00.000000',
+                subjectID: 'SDy1h3thCVdCu1r5DxPx',
+                major: '컴퓨터SW',
+                subjectName: 'Firebase를 활용한 플랫폼 개발 2',
+                professorID: '0001010',
+                startAt: '15:50:00.000000',
+                tagUuid: '62ad5800-4d36-4dcf-b5eb-4a26a1503a74',
+                validTime: 20),
+            const Subject(
+                dayWeek: 0,
+                department: '컴퓨터 학부',
+                endAt: '23:20:00.000000',
+                subjectID: 'SDy1h3thCVdCu1r5DxPx',
+                major: '컴퓨터SW',
+                subjectName: 'Firebase를 활용한 플랫폼 개발 3',
+                professorID: '0001010',
+                startAt: '15:50:00.000000',
+                tagUuid: '62ad5800-4d36-4dcf-b5eb-4a26a1503a74',
+                validTime: 20),
+          ]);
+    }
 
     // 데이터베이스로부터 과목 목록을 불러옴.
     var db = FirebaseFirestore.instance;
@@ -47,7 +85,7 @@ class SubjectPageViewModel{
 
       // 교수 본인이 가르치는 과목을 쿼리한다.
       final queryInSubjectDB =
-      db.collection('subjects').where("professor_id", isEqualTo: myID);
+          db.collection('subjects').where('professor_id', isEqualTo: myID);
 
       await queryInSubjectDB.get().then((event) {
         // 담당한 과목이 있을 경우에만
