@@ -1,5 +1,5 @@
 name: check_attendance_professor
-description: A new Flutter project.
+description: 강의자용 출결 관리 앱 입니다.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
