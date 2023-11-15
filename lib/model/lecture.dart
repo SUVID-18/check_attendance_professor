@@ -15,9 +15,6 @@ class Lecture {
   /// 강의 수강 대상 학과
   final String major;
 
-  /// 강의실
-  final String room;
-
   /// 강의를 가르치는 교수의 번호
   final String professorId;
 
@@ -43,7 +40,6 @@ class Lecture {
       required this.name,
       required this.department,
       required this.major,
-      required this.room,
       required this.dayWeek,
       required this.professorId,
       required this.startLesson,
@@ -69,7 +65,6 @@ class Lecture {
       name: json['name'],
       department: json['department'],
       major: json['major'],
-      room: json['room'],
       professorId: json['professor_id'],
       dayWeek: json['day_week'],
       startLesson: json['start_at'],
@@ -89,7 +84,6 @@ class Lecture {
         'name': name,
         'department': department,
         'major': major,
-        'room': room,
         'professor_id': professorId,
         'day_week': dayWeek,
         'start_at': startLesson,

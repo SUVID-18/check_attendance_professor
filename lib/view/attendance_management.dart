@@ -1,11 +1,15 @@
 import 'package:check_attendance_professor/model/attendance_information.dart';
+import 'package:check_attendance_professor/view/styles.dart';
 import 'package:check_attendance_professor/view_model/attendance_management.dart';
 import 'package:flutter/material.dart';
 
 /// 학생들 출결 상태 확인 및 관리 페이지(과목 목록에서 과목 선택 시 화면)
 
 class AttendanceManagementPage extends StatefulWidget {
-  const AttendanceManagementPage({Key? key}) : super(key: key);
+  final String subjectID;
+
+  const AttendanceManagementPage({required this.subjectID, Key? key})
+      : super(key: key);
 
   @override
   State<AttendanceManagementPage> createState() =>
@@ -18,12 +22,11 @@ class _AttendanceManagementPageState extends State<AttendanceManagementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //appBar 부분
       appBar: AppBar(title: const Text('학생 출결관리')),
 
       //ListView를 사용해 리스트를 동적으로 나타내도록 함
-      body: FutureBuilder<List<AttendanceInformation>?>(
-          future: viewModel.loadAttendanceDB(),
+      body: StreamBuilder<List<AttendanceInformation>?>(
+          stream: viewModel.loadAttendanceDB(widget.subjectID),
           builder: (BuildContext context,
               AsyncSnapshot<List<AttendanceInformation>?> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -32,8 +35,11 @@ class _AttendanceManagementPageState extends State<AttendanceManagementPage> {
               );
             } else if (snapshot.hasError) {
               return const Text('Error');
-            } else if (snapshot.data == null) {
-              return Container();
+            } else if ((snapshot.data == null) || (snapshot.data!.isEmpty)) {
+              return const Center(
+                  child: ResultNotFound(
+                text: '확인 가능한 출결 기록이 존재하지 않습니다.',
+              ));
             } else {
               var attendanceList = snapshot.data!;
               return ListView.builder(

@@ -1,10 +1,10 @@
+import 'package:check_attendance_professor/model/professor.dart';
+import 'package:check_attendance_professor/view_model/settings.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 /// 앱 내 환경설정에 해당되는 페이지 입니다.
 ///
 /// 이곳에서 계정 정보 확인 및 로그아웃이 가능합니다.
-// TODO(front): 환경 설정 화면 구성하기
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
@@ -13,11 +13,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  ///사용자 이름 변수
-  final _userName = TextEditingController();
-
-  ///사용자 전공 변수
-  final _userMajor = TextEditingController();
+  late var viewModel = SettingsViewModel(context: context);
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +28,8 @@ class _SettingsPageState extends State<SettingsPage> {
               const SizedBox(height: 20),
 
               ///상단 부제목 부분
-              Row(
-                children: const [
+              const Row(
+                children: [
                   Icon(
                     Icons.person,
                     color: Colors.blue,
@@ -65,12 +61,29 @@ class _SettingsPageState extends State<SettingsPage> {
                               title: const Text('계정정보'),
                               content: SizedBox(
                                 width: double.maxFinite,
-                                child: ListView(
-                                  shrinkWrap: true,
-                                  children: [
-                                    Text('이름: $_userName, 소속: $_userMajor')
-                                  ],
-                                ),
+                                child: FutureBuilder<Professor?>(
+                                    future: viewModel.getProfessorInfo(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const CircularProgressIndicator
+                                            .adaptive();
+                                      } else if (snapshot.data == null) {
+                                        return ListView(
+                                          shrinkWrap: true,
+                                          children: const [
+                                            Text('정보를 찾을 수 없습니다.'),
+                                          ],
+                                        );
+                                      }
+                                      return ListView(
+                                        shrinkWrap: true,
+                                        children: [
+                                          Text('이름: ${snapshot.data!.name}'),
+                                          Text('교번: ${snapshot.data!.id}')
+                                        ],
+                                      );
+                                    }),
                               ),
                               actions: <Widget>[
                                 TextButton(
@@ -103,9 +116,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     onPressed: () => Navigator.pop(context),
                                     child: const Text('취소')),
                                 ElevatedButton(
-                                    onPressed: () {
-                                      context.go('/login');
-                                    },
+                                    onPressed: () => viewModel.signOut(),
                                     child: const Text('확인'))
                               ]));
                 },

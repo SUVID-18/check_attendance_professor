@@ -47,7 +47,7 @@ class SubjectPageViewModel{
 
       // 교수 본인이 가르치는 과목을 쿼리한다.
       final queryInSubjectDB =
-      db.collection('subjects').where("professor_id", isEqualTo: myID);
+          db.collection('subjects').where('professor_id', isEqualTo: myID);
 
       await queryInSubjectDB.get().then((event) {
         // 담당한 과목이 있을 경우에만

@@ -1,0 +1,79 @@
+name: Flutter Preview on PR
+on: pull_request
+
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Flutter action
+        uses: subosito/flutter-action@v2.3.0
+
+      - name: Prepare for Firebase
+        env:
+          OPTIONS: ${{ secrets.FIREBASE_OPTIONS }}
+          GOOGLE_KEY: ${{ secrets.GOOGLE_SERVICES }}
+        run: |
+          echo $OPTIONS | base64 --decode > lib/firebase_options.dart
+          echo $GOOGLE_KEY | base64 --decode > android/app/google-services.json
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Test flutter app
+        run: flutter test
+
+  BuildWeb:
+    name: Build for web version
+    runs-on: ubuntu-latest
+    needs: [ Test ]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Flutter action
+        uses: subosito/flutter-action@v2.8.0
+
+      - name: Prepare for Firebase
+        env:
+          OPTIONS: ${{ secrets.FIREBASE_OPTIONS }}
+          GOOGLE_KEY: ${{ secrets.GOOGLE_SERVICES }}
+        run: |
+          echo $OPTIONS | base64 --decode > lib/firebase_options.dart
+          echo $GOOGLE_KEY | base64 --decode > android/app/google-services.json
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build Web App
+        run: flutter build web
+
+      - name: Upload Web Code
+        uses: actions/upload-artifact@v3
+        with:
+          name: web
+          path: |
+            build/web/
+            firebase.json
+            staticwebapp.config.json
+            .firebaserc
+
+  Preview:
+    name: Deploy to Firebase(Preview)
+    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
+    runs-on: ubuntu-latest
+    needs: [ BuildWeb ]
+    steps:
+      - name: Download Web Code
+        uses: actions/download-artifact@v3
+        with:
+          name: web
+
+      - name: Firebase Hosting Deploy (Preview)
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SUVID_18 }}'
+          projectId: suvid-18
