@@ -22,7 +22,6 @@ class _AttendanceManagementPageState extends State<AttendanceManagementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //appBar 부분
       appBar: AppBar(title: const Text('학생 출결관리')),
 
       //ListView를 사용해 리스트를 동적으로 나타내도록 함

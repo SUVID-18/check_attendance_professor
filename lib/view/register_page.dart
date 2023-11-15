@@ -24,7 +24,6 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Column(
           children: [
             TextField(
-              ///viewmodel 영
               controller: viewModel.userEmailController,
               decoration: const InputDecoration(
                 labelText: '사용자 이메일',

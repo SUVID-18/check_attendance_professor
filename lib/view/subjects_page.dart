@@ -24,8 +24,6 @@ class SubjectPage extends StatelessWidget {
       ),
 
       ///카드 사용해서 클릭시 상세정보로 넘어감.
-      ///총 4개
-
       body: Center(
         child: FutureBuilder<List<Subject>?>(
             future: viewModel.loadSubjectDB(),
