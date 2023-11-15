@@ -51,6 +51,9 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Build Web App
+        run: flutter build web
+
       - name: Upload Web Code
         uses: actions/upload-artifact@v3
         with:
