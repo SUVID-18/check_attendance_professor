@@ -41,11 +41,9 @@ class _RegisterPageState extends State<RegisterPage> {
               onPressed: () {
                 try {
                   viewModel.signUp(name: '이정민', id: '123456').then((_) {
-                    print('회원가입 성공');
                     context.push('/');
                   });
                 } catch (error) {
-                  print('오류로 인한 회원가입 실패: $error');
                   return;
                 }
               },
