@@ -45,8 +45,22 @@ class SubjectSettingsViewModel {
         .where('id', isEqualTo: subjectID)
         .get();
     var result = DateTime(1970, 1, 1, startTime.hour, startTime.minute);
-    return subjectRef.docs.first.reference.update(
-        {'start_at': result.millisecondsSinceEpoch.toString().substring(0, 5)});
+    return subjectRef.docs.first.reference.update({
+      'start_at':
+          result.millisecondsSinceEpoch ~/ Duration.millisecondsPerSecond
+    });
+  }
+
+  /// 과목의 종료 시간을 업데이트 하는 메서드이다.
+  Future<void> updateEndTime(TimeOfDay endTime) async {
+    var subjectRef = await FirebaseFirestore.instance
+        .collection('subjects')
+        .where('id', isEqualTo: subjectID)
+        .get();
+    var result = DateTime(1970, 1, 1, endTime.hour, endTime.minute);
+    return subjectRef.docs.first.reference.update({
+      'end_at': result.millisecondsSinceEpoch ~/ Duration.millisecondsPerSecond
+    });
   }
 
   /// 과목을 삭제하는 메서드이다.

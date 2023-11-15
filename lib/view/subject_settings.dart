@@ -20,7 +20,8 @@ class _SubjectSettingsPageState extends State<SubjectSettingsPage> {
   ///유효시간 설정 변수
   int validTime = 0;
   late var viewModel = SubjectSettingsViewModel(subjectID: widget.subjectID);
-  TimeOfDay initialTime = TimeOfDay.now();
+  TimeOfDay initialStartTime = TimeOfDay.now();
+  TimeOfDay initialEndTime = TimeOfDay.now();
 
   @override
   Widget build(BuildContext context) {
@@ -157,12 +158,30 @@ class _SubjectSettingsPageState extends State<SubjectSettingsPage> {
               trailing: const Icon(Icons.arrow_forward_ios, color: Colors.grey),
               onTap: () async {
                 var time = await showTimePicker(
-                    context: context, initialTime: initialTime);
+                    context: context, initialTime: initialStartTime);
                 if (time != null) {
                   setState(() {
-                    initialTime = time;
+                    initialStartTime = time;
                   });
                   await viewModel.updateStartTime(time);
+                }
+              },
+            ),
+            ListTile(
+              title: Text('과목 종료 시간 변경',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey[600])),
+              trailing: const Icon(Icons.arrow_forward_ios, color: Colors.grey),
+              onTap: () async {
+                var time = await showTimePicker(
+                    context: context, initialTime: initialEndTime);
+                if (time != null) {
+                  setState(() {
+                    initialEndTime = time;
+                  });
+                  await viewModel.updateEndTime(time);
                 }
               },
             ),
