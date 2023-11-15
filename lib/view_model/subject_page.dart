@@ -2,9 +2,9 @@ import 'package:check_attendance_professor/model/subject.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class SubjectPageViewModel{
+class SubjectPageViewModel {
   // 추후 특정 과목만을 선택했을 때 혹은 검색 옵션이 있다면 인자를 추가해야 할 수 있다.
-  
+
   // 싱글톤 패턴 선언부
 
   /// SubjectPageViewModel의 private 생성자이다.
@@ -20,8 +20,7 @@ class SubjectPageViewModel{
   ///   SubjectPageViewModel viewModel = SubjectPageViewModel();
   ///```
   factory SubjectPageViewModel() => SubjectPageViewModel._privateConstructor();
-  
-  
+
   /// 교수 본인이 가르치는 과목 목록을 불러오는 메서드이다.
   ///
   /// 교수 이름이 아닌 교번으로 분류하므로 동명이인일 경우는 고려하지 않아도 된다.
@@ -29,7 +28,6 @@ class SubjectPageViewModel{
   ///
   /// 이 메서드는 데이터베이스로부터 데이터를 로드해야 하므로 FutureBuilder를 사용해야 한다.
   Future<List<Subject>?> loadSubjectDB() async {
-
     // 데이터베이스로부터 과목 목록을 불러옴.
     var db = FirebaseFirestore.instance;
 
@@ -39,7 +37,7 @@ class SubjectPageViewModel{
 
       // 로그인한 사용자의 교번. 이 교번을 이용해 과목에서 쿼리한다.
       final queryMyID =
-      await db.collection('professors').doc(currentUser.uid).get();
+          await db.collection('professors').doc(currentUser.uid).get();
 
       // 이 부분을 추후 교수 객체로 변경할 수 있음.
       // 이미 사용자가 있다고 검사했으므로 반드시 null이 아닐 것임.
