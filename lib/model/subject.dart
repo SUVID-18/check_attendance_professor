@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 /// 과목 정보에 대한 정보를 가지고 있는 클래스
 @immutable
 class Subject {
-
   /// 과목이 배정된 요일.
   ///
   /// 요일이 int형으로 저장되어 있으므로 daytoString() 메서드를 사용하여 String 변환을 한다.
@@ -65,8 +64,8 @@ class Subject {
   ///
   /// 기존에 저장된 값은 int 형으로, 요일 간 계산을 편하게 하기 위함이었다.
   /// 이 메서드는 1,2..7 과 같은 값을 월,화..일로 변환하는 기능을 한다.
-  String daytoString(){
-    switch(dayWeek){
+  String daytoString() {
+    switch (dayWeek) {
       case 1:
         return '월';
       case 2:
@@ -91,19 +90,15 @@ class Subject {
   /// `Firestore`에서 받은 데이터를 [Subject]객체로 반환하는 메서드로 [json]에
   /// `Firestore`에서 받은 데이터를 넣으면 된다.
   ///
-  factory Subject.fromJson(Map<String, dynamic> json) {
-
-      return Subject(
-          dayWeek: json['day_week'].toInt(),
-          department: json['department'],
-          endAt: json['end_at'],
-          subjectID: json['id'],
-          major: json['major'],
-          subjectName: json['name'],
-          professorID: json['professor_id'],
-          startAt: json['start_at'],
-          tagUuid: json['tag_uuid'],
-          validTime: json['valid_time']
-      );
-  }
+  factory Subject.fromJson(Map<String, dynamic> json) => Subject(
+      dayWeek: json['day_week'],
+      department: json['department'],
+      endAt: json['end_at'].toString(),
+      subjectID: json['id'],
+      major: json['major'],
+      subjectName: json['name'],
+      professorID: json['professor_id'],
+      startAt: json['start_at'].toString(),
+      tagUuid: json['tag_uuid'],
+      validTime: json['valid_time']);
 }
