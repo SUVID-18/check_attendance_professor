@@ -3,7 +3,7 @@ name: Deploy API Document to Pages
 on:
   # Runs on pushes targeting the main branch
   push:
-    branches: [ "main" ]
+    branches: [ "development" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -35,7 +35,7 @@ jobs:
       - name: Prepare for Firebase
         env:
           OPTIONS: ${{ secrets.FIREBASE_OPTIONS }}
-          GOOGLE_KEY: ${{ secrets.GOOGLE_SERVICES }}
+          GOOGLE_KEY: ${{ secrets.GOOGLE_KEY }}
         run: |
           echo $OPTIONS | base64 --decode > lib/firebase_options.dart
           echo $GOOGLE_KEY | base64 --decode > android/app/google-services.json

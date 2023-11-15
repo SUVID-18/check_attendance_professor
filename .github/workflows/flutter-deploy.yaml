@@ -17,7 +17,7 @@ jobs:
       - name: Prepare for Firebase
         env:
           OPTIONS: ${{ secrets.FIREBASE_OPTIONS }}
-          GOOGLE_KEY: ${{ secrets.GOOGLE_SERVICES }}
+          GOOGLE_KEY: ${{ secrets.GOOGLE_KEY }}
         run: |
           echo $OPTIONS | base64 --decode > lib/firebase_options.dart
           echo $GOOGLE_KEY | base64 --decode > android/app/google-services.json
@@ -63,6 +63,7 @@ jobs:
 
   BuildAPK:
     name: Build Android package
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     if: github.ref_name == 'main'
     needs: [ Test ]
