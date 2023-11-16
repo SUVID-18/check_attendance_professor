@@ -67,8 +67,8 @@ class Lecture {
       major: json['major'],
       professorId: json['professor_id'],
       dayWeek: json['day_week'],
-      startLesson: json['start_at'],
-      endLesson: json['end_at'],
+      startLesson: json['start_at'].toString(),
+      endLesson: json['end_at'].toString(),
       validTime: json['valid_time']);
 
   /// 객체를 `JSON`으로 직렬화 하는 메서드
